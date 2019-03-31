@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#AutoSnort PreReq and Install Script for HomeLab
+#AutoSnort3 PreReq and Install Script for HomeLab
 
 mkdir ~/snort_src
 cd ~/snort_src
@@ -37,20 +37,21 @@ echo "Check to see if Hyperscan works"
 cd ~/snort_src/hyperscan-4.7.0-build/
 ./bin/unit-hyperscan
 
-#####Download and Install Snort 2.9.12
+#####Download and Install Snort3
 echo "Will now start to Download and Install Snort"
 
 cd ~/snort_src
-wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
-tar -xvzf daq-2.0.6.tar.gz
-cd daq-2.0.6
+wget https://www.snort.org/downloads/snortplus/daq-2.2.2.tar.gz
+tar -xvzf daq-2.2.2.tar.gz
+cd daq-2.2.2
 ./configure
 make && make install
 
 ldconfig
 
 cd ~/snort_src
-wget https://www.snort.org/downloads/snort/snort-2.9.12.tar.gz
-tar -xvzf snort-2.9.12.tar.gz
-cd snort-2.9.12
-./configure --enable-sourcefire && make && make install
+git clone git://github.com/snortadmin/snort3.git
+cd snort3
+./configure_cmake.sh --prefix=/usr/local --enable-tcmalloc
+cd build
+make && make install
