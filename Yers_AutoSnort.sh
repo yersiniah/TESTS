@@ -31,3 +31,26 @@ cd hyperscan-4.7.0-build/
 
 cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DBOOST_ROOT=~/snort_src/boost_1_67_0/ ../hyperscan-4.7.0
 make && make install
+
+echo "Check to see if Hyperscan works"
+
+cd ~/snort_src/hyperscan-4.7.0-build/
+./bin/unit-hyperscan
+
+#####Download and Install Snort 2.9.12
+echo "Will now start to Download and Install Snort"
+
+cd ~/snort_src
+wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
+tar -xvzf daq-2.0.6.tar.gz
+cd daq-2.0.6
+./configure
+make && make install
+
+ldconfig
+
+cd ~/snort_src
+wget https://www.snort.org/downloads/snort/snort-2.9.12.tar.gz
+tar -xvzf snort-2.9.12.tar.gz
+cd snort-2.9.12
+./configure --enable-sourcefire && make && make install
