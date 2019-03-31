@@ -9,6 +9,8 @@ apt-get install -y  build-essential autotools-dev libdumbnet-dev libluajit-5.1-d
 
 apt-get install -y liblzma-dev openssl libssl-dev cpputest libsqlite3-dev uuid-dev libtool git autoconf bison flex libnetfilter-queue-dev
 
+apt-get install -y libnghttp2-dev
+
 wget https://downloads.sourceforge.net/project/safeclib/libsafec-10052013.tar.gz
 
 tar -xzvf libsafec-10052013
@@ -37,21 +39,26 @@ echo "Check to see if Hyperscan works"
 cd ~/snort_src/hyperscan-4.7.0-build/
 ./bin/unit-hyperscan
 
-#####Download and Install Snort3
+#####Download and Install Snort 2.9.12
 echo "Will now start to Download and Install Snort"
 
 cd ~/snort_src
-wget https://www.snort.org/downloads/snortplus/daq-2.2.2.tar.gz
-tar -xvzf daq-2.2.2.tar.gz
-cd daq-2.2.2
+wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
+tar -xvzf daq-2.0.6.tar.gz
+cd daq-2.0.6
 ./configure
+make && make install
+
+
+cd ~/snort_src
+wget https://www.snort.org/downloads/snort/snort-2.9.12.tar.gz
+tar -xvzf snort-2.9.12.tar.gz
+cd snort-2.9.12
+./configure --enable-sourcefire
 make && make install
 
 ldconfig
 
-cd ~/snort_src
-git clone git://github.com/snortadmin/snort3.git
-cd snort3
-./configure_cmake.sh --prefix=/usr/local --enable-tcmalloc
-cd build
-make && make install
+ln -s /usr/local/bin/snort /usr/sbin/snort
+
+/usr/sbin/snort -V
